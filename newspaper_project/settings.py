@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Local
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -40,6 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts",
     "pages",
+    "articles",
+    # 3rd Party
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -108,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Denver"
 
 USE_I18N = True
 
@@ -131,3 +136,8 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 # Redirects when login or logout back to homepage.
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
