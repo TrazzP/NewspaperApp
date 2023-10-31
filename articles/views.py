@@ -1,3 +1,5 @@
+from typing import Any
+from django import http
 from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
@@ -7,31 +9,49 @@ from django.urls import reverse_lazy
 from .models import Article
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 
 
-class ArticleListView(ListView):
+class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
     template_name = "article_list.html"
+    login_url = 'login'
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(LoginRequiredMixin, DetailView):
     model = Article
     template_name = "article_detail.html"
+    login_url = 'login'
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(LoginRequiredMixin,UpdateView):
     model = Article
     fields = (
         "title",
         "body",
     )
     template_name = "article_edit.html"
+    login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
     model = Article
     template_name = "article_delete.html"
     success_url = reverse_lazy("article_list")
+    login_url = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != self.request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
