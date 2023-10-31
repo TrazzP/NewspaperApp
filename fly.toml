@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for newspapar on 2023-10-30T21:02:08-06:00
+# fly.toml app configuration file generated for trazznewspaper on 2023-10-30T21:39:48-06:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "newspapar"
+app = "trazznewspaper"
 primary_region = "sea"
 console_command = "/code/manage.py shell"
 
